@@ -39,3 +39,38 @@ const sectionObserver = new IntersectionObserver(
 );
 
 sections.forEach((section) => sectionObserver.observe(section));
+
+// ============================================
+// 3. LIGHTBOX — click a project image to see it full-size
+// ============================================
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightbox-img');
+const lightboxClose = document.querySelector('.lightbox-close');
+const galleryImages = document.querySelectorAll('.project-images img');
+
+function openLightbox(img) {
+  lightboxImg.src = img.src;
+  lightboxImg.alt = img.alt;
+  lightbox.classList.add('open');
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lightboxImg.src = '';
+}
+
+galleryImages.forEach((img) => {
+  img.addEventListener('click', () => openLightbox(img));
+});
+
+lightboxClose.addEventListener('click', closeLightbox);
+
+// Click the dark overlay (not the image itself) to close
+lightbox.addEventListener('click', (e) => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+// Escape key closes it too
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeLightbox();
+});
